@@ -18,16 +18,17 @@ class OIDCContainer implements ISSOContainer
                 continue;
 
             $name = (string)$server->name;
+            $encodedName = rawurlencode($name);
             $opts = [
                 'service' => 'WebGui',
                 'name' => $name,
-                'login_uri' => "/api/oidc/auth/login?provider={$name}",
+                'login_uri' => "/api/oidc/auth/login?provider={$encodedName}",
             ];
 
             $customButton = (string)$server->oidc_custom_button;
             if (!empty($customButton)) {
                 $opts['html_content'] = $customButton;
-                $iconUrl = "/api/oidc/auth/icon?provider={$name}";
+                $iconUrl = "/api/oidc/auth/icon?provider={$encodedName}";
                 $opts['html_content'] = str_replace('%icon%', $iconUrl, $opts['html_content']);
                 $opts['html_content'] = str_replace('%name%', $name, $opts['html_content']);
                 $opts['html_content'] = str_replace('%url%', $opts['login_uri'], $opts['html_content']);

@@ -54,6 +54,7 @@ class AuthController extends ApiControllerBase
         $imageData = curl_exec($ch);
         $curlErr = curl_error($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $mimeType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
 
         if ($imageData === false || $httpCode !== 200) {
@@ -61,7 +62,6 @@ class AuthController extends ApiControllerBase
             return "Unable to fetch icon. " . ($curlErr ?: "HTTP $httpCode");
         }
 
-        $mimeType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $this->response->setHeader('Content-Type', $mimeType);
         $this->response->setHeader('Cache-Control', 'public, max-age=31536000, immutable'); // cache for 1 year, aggressive
         return $imageData;

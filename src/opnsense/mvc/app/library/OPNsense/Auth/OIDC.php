@@ -100,8 +100,8 @@ class OIDC extends Local implements IAuthConnector
             }
         }
 
-        $this->oidcDefaultGroups = explode(',', $config['oidc_default_groups']);
-        $this->oidcScopes = explode(',', $config['oidc_scopes']);
+        $this->oidcDefaultGroups = explode(',', $config['oidc_default_groups'] ?? '');
+        $this->oidcScopes = explode(',', $config['oidc_scopes'] ?? '');
     }
 
     /**
